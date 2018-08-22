@@ -1,0 +1,92 @@
+{
+  "extensionName": {
+    "message": "YouTube Video Quality (HD/4K)",
+    "description": "Name of the extension."
+  },
+
+  "extensionDescription": {
+    "message":
+      "Watch YouTube in your preferred video quality, such as 720p, 1080p, 1440p and 2160p.",
+    "description": "Description of the extension."
+  },
+
+  "optionTitle_quality": {
+    "message": "Video quality",
+    "description": "Title of the option."
+  },
+
+  "optionValue_quality_auto": {
+    "message": "Auto",
+    "description": "Value of the option."
+  },
+
+  "optionValue_quality_tiny": {
+    "message": "144p",
+    "description": "Value of the option."
+  },
+
+  "optionValue_quality_small": {
+    "message": "240p",
+    "description": "Value of the option."
+  },
+
+  "optionValue_quality_medium": {
+    "message": "360p",
+    "description": "Value of the option."
+  },
+
+  "optionValue_quality_large": {
+    "message": "480p",
+    "description": "Value of the option."
+  },
+
+  "optionValue_quality_hd720": {
+    "message": "720p (HD)",
+    "description": "Value of the option."
+  },
+
+  "optionValue_quality_hd1080": {
+    "message": "1080p (HD)",
+    "description": "Value of the option."
+  },
+
+  "optionValue_quality_hd1440": {
+    "message": "1440p (2K)",
+    "description": "Value of the option."
+  },
+
+  "optionValue_quality_hd2160": {
+    "message": "2160p (4K)",
+    "description": "Value of the option."
+  },
+
+  "optionValue_quality_hd2880": {
+    "message": "2880p (5K)",
+    "description": "Value of the option."
+  },
+
+  "optionValue_quality_highres": {
+    "message": "4320p (8K)",
+    "description": "Value of the option."
+  },
+
+  "pageTitle": {
+    "message": "$PAGETITLE$ - $EXTENSIONNAME$",
+    "description": "Title of the page.",
+    "placeholders": {
+      "pageTitle": {
+        "content": "$1",
+        "example": "Options"
+      },
+      "extensionName": {
+        "content": "$2",
+        "example": "Extension Name"
+      }
+    }
+  },
+
+  "pageTitle_options": {
+    "message": "Options",
+    "description": "Title of the page."
+  }
+}
