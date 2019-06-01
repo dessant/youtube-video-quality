@@ -1,0 +1,26 @@
+jobs:
+  fast_finish: true
+  include:
+    - stage: build
+      install: docker build --tag ci .ci
+      script: docker run --init --rm -e TRAVIS_TAG --mount type=bind,source="${PWD}",target=/app ci
+      os: linux
+      dist: xenial
+      language: generic
+      services:
+        - docker
+
+before_deploy: sha256sum artifacts/*/*
+
+deploy:
+  provider: releases
+  api_key:
+    secure: "F2lU+RNHr2ude/rl7ZNOoSlvmAhLnFdKDB2IlEmond6YCSOsMwOwdqLqfcgFy8LHhXLPwhJI+Cimxdq86BS9H30md2UWwEeout4a1GIvS7+Ce/4bLiaXBXv+02uf1fwdEVLDXRR9fwoqVSVu1zyT2mDI6mC5rD0KvPxXZwjekn8qpy5gX4KP970TeZKly5zaGH66wexpLM/lnkKPK/DVKrvmsRBstmNT+n1FlY0DHDS7RjFmvpCkv0EIc1VZaaY7uRr07SFPgp9CzMHVlmVBQD7jIzYDyu4n1Cb0sXmkQhYUj8ISVQXSNDEuStaVGkwAPgKRVzY3Bt+46i/WxO1AT0ZL1adTPRv3BAl3VWEdWGPFTm/4CROVQsgXfQpQ0WY6GBGtjec4+BZLvMA1Re7icQVKB2OfbaEnf9+NwGPYJ3/PL6l3RurIJ3CAUjVWYxo4QFF8vrR/YWb4lFbvLrRm3zypvU+HhMDNv2DG0CUsUpIsKVCsMVeGSlabnpZWTgbdVAbbzS/7VKacS1zjlGd16XRlJFvXwYYDb1Y8+h4e/ux8uZG3lodjwpQhhOYZTjf+v3LUg+eXXZoAEzs/izGlsvqIxfhEXcDD6OE8Ln6lDuefyQOjJeFWFtMXdeTD4fkrH1b7f/dcazrIBeYOnSU4ZdWvLf0RFRWK14DdguGw7rY="
+  draft: true
+  file: artifacts/*/*
+  file_glob: true
+  overwrite: true
+  skip_cleanup: true
+  body: "Download and install the extension from the [extension store](https://github.com/dessant/youtube-video-quality#readme) of your browser.<br>Learn more about this release from the [changelog](https://github.com/dessant/youtube-video-quality/blob/master/CHANGELOG.md#changelog).<br><br>The assets listed below are not for general use."
+  on:
+    tags: true
