@@ -45,11 +45,7 @@
 
   "content_scripts": [
     {
-      "matches": [
-        "*://www.youtube.com/*",
-        "*://gaming.youtube.com/*",
-        "*://www.youtube-nocookie.com/*"
-      ],
+      "matches": ["*://www.youtube.com/*", "*://www.youtube-nocookie.com/*"],
       "all_frames": true,
       "run_at": "document_start",
       "js": ["src/manifest.js", "src/quality/script.js"]
