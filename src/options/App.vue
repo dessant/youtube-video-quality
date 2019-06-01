@@ -1,3 +1,4 @@
+<!-- prettier-ignore -->
 <template>
 <div id="app" v-if="dataLoaded">
   <div class="section">
@@ -68,7 +69,6 @@ export default {
 <style lang="scss">
 $mdc-theme-primary: #1abc9c;
 
-@import '@material/theme/mixins';
 @import '@material/typography/mixins';
 
 body {
@@ -84,24 +84,6 @@ body {
   display: grid;
   grid-row-gap: 32px;
   padding: 12px;
-}
-
-.mdc-select__menu {
-  left: inherit !important;
-}
-
-.section-title,
-.section-desc {
-  @include mdc-theme-prop('color', 'text-primary-on-light');
-}
-
-.section-title {
-  @include mdc-typography('title');
-}
-
-.section-desc {
-  @include mdc-typography('body1');
-  padding-top: 8px;
 }
 
 .option-wrap {

@@ -31,7 +31,7 @@ module.exports = {
     quality: './src/quality/main.js'
   },
   output: {
-    path: path.resolve(__dirname, 'dist', 'src'),
+    path: path.resolve(__dirname, 'dist', targetEnv, 'src'),
     chunkFilename: '[name]/script.js'
   },
   optimization: {

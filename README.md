@@ -16,8 +16,10 @@
 
 The continued development of YouTube Video Quality is made possible
 thanks to the support of awesome backers. If you'd like to join them,
-please consider contributing with [Patreon](https://goo.gl/qRhKSW),
-[PayPal](https://goo.gl/5FnBaw) or [Bitcoin](https://goo.gl/uJUAaU).
+please consider contributing with
+[Patreon](https://armin.dev/go/patreon?pr=youtube-video-quality&src=repo),
+[PayPal](https://armin.dev/go/paypal?pr=youtube-video-quality&src=repo) or
+[Bitcoin](https://armin.dev/go/bitcoin?pr=youtube-video-quality&src=repo).
 
 ## Description
 
