@@ -141,7 +141,21 @@ gulp.task('manifest', function(done) {
   done();
 });
 
-gulp.task('copy', function(done) {
+gulp.task('license', function(done) {
+  let year = 2018;
+  const currentYear = new Date().getFullYear();
+  if (year !== currentYear) {
+    year = `${year}-${currentYear}`;
+  }
+
+  const notice = `Video Quality Settings for YouTube
+Copyright (c) ${year} Armin Sebastian
+
+This software is released under the terms of the GNU General Public License v3.0.
+See the LICENSE file for further information.
+`;
+
+  writeFileSync(`${distDir}/NOTICE`, notice);
   gulp.src(['LICENSE']).pipe(gulp.dest(distDir));
   done();
 });
@@ -150,8 +164,15 @@ gulp.task(
   'build',
   gulp.series(
     'clean',
-    gulp.parallel('js', 'html', 'icons', 'fonts', 'locale', 'manifest'),
-    'copy'
+    gulp.parallel(
+      'js',
+      'html',
+      'icons',
+      'fonts',
+      'locale',
+      'manifest',
+      'license'
+    )
   )
 );
 
