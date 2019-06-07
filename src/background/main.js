@@ -5,7 +5,7 @@ import storage from 'storage/storage';
 import {prepareQualityData} from 'utils/app';
 import {executeCode} from 'utils/common';
 
-const youtubeOriginRx = /^https:\/\/(?:(?:www|gaming)\.youtube|youtube-nocookie)\.com$/;
+const youtubeOriginRx = /^https:\/\/www\.(?:youtube|youtube-nocookie)\.com$/;
 
 async function syncState(quality) {
   if (!quality) {
