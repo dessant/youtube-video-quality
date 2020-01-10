@@ -1,17 +1,18 @@
-<!-- prettier-ignore -->
 <template>
-<div id="app" v-if="dataLoaded">
-  <div class="section">
-    <div class="option-wrap">
-      <div class="option select">
-        <v-select :label="getText('optionTitle_quality')"
+  <div id="app" v-if="dataLoaded">
+    <div class="section">
+      <div class="option-wrap">
+        <div class="option select">
+          <v-select
+            :label="getText('optionTitle_quality')"
             v-model="options.quality"
-            :options="selectOptions.quality">
-        </v-select>
+            :options="selectOptions.quality"
+          >
+          </v-select>
+        </div>
       </div>
     </div>
   </div>
-</div>
 </template>
 
 <script>
