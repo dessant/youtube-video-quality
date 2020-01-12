@@ -70,36 +70,58 @@ export default {
 <style lang="scss">
 $mdc-theme-primary: #1abc9c;
 
+@import '@material/select/mdc-select';
 @import '@material/typography/mixins';
 
 body {
-  min-width: 300px;
-  min-height: 200px;
   @include mdc-typography-base;
   font-size: 100%;
   background-color: #ffffff;
   overflow: visible !important;
+  margin: 0;
 }
 
 #app {
   display: grid;
   grid-row-gap: 32px;
-  padding: 12px;
+  padding: 24px;
 }
 
 .option-wrap {
   display: grid;
-  grid-row-gap: 12px;
-  padding-top: 16px;
+  grid-row-gap: 24px;
+  grid-auto-columns: min-content;
 }
 
 .option {
   display: flex;
   align-items: center;
-  height: 36px;
+  height: 24px;
+
+  & .mdc-form-field {
+    max-width: calc(100vw - 48px);
+
+    & label {
+      overflow: hidden;
+      white-space: nowrap;
+      text-overflow: ellipsis;
+    }
+  }
 }
 
 .option.select {
+  align-items: start;
   height: 56px;
+
+  & .mdc-select__anchor,
+  & .mdc-select__menu {
+    max-width: calc(100vw - 48px);
+  }
+
+  & .mdc-select__selected-text {
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+  }
 }
 </style>
