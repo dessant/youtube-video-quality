@@ -3,12 +3,10 @@
 
 <p align="center">
   </br></br>
-  <a href="https://chrome.google.com/webstore/detail/youtube-video-quality-hd4/hlbopkdbimgihmpcaohopplcbpanmjlb">
+  <a href="https://chrome.google.com/webstore/detail/hlbopkdbimgihmpcaohopplcbpanmjlb">
     <img src="https://i.imgur.com/B0i5sn3.png" alt="Chrome Web Store"></a>
   <a href="https://addons.mozilla.org/en-US/firefox/addon/youtube-video-quality/">
     <img src="https://i.imgur.com/dvof8rG.png" alt="Firefox add-ons"></a>
-  <a href="">
-    <img src="https://i.imgur.com/wK10qEV.png" alt="Opera add-ons"></a>
   </br></br>
 </p>
 
