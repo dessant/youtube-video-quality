@@ -16,7 +16,12 @@
   "minimum_chrome_version": "55.0",
   "minimum_opera_version": "42.0",
 
-  "permissions": ["storage", "tabs", "webNavigation", "<all_urls>"],
+  "permissions": [
+    "storage",
+    "webNavigation",
+    "*://*.youtube.com/*",
+    "*://www.youtube-nocookie.com/*"
+  ],
 
   "content_security_policy": "default-src 'self'; img-src 'self' data:; object-src 'none'; connect-src 'none';",
 
