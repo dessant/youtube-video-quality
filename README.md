@@ -28,7 +28,7 @@ settings between sessions.
 ## Screenshots
 
 <p>
-  <img width="280" src="https://i.imgur.com/6ARPUDG.png">
+  <img width="420" src="https://i.imgur.com/rBPyFPg.png">
 </p>
 
 ## License
