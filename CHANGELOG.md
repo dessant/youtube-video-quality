@@ -2,6 +2,27 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [1.0.0](https://github.com/dessant/youtube-video-quality/compare/v0.2.0...v1.0.0) (2020-01-13)
+
+
+### ⚠ BREAKING CHANGES
+
+* browser versions before Chrome 76, Firefox 68 and Opera 63
+are no longer supported
+
+### Features
+
+* add option for limiting frame rate to 30 FPS ([591b269](https://github.com/dessant/youtube-video-quality/commit/591b2691766a9589a51d04ef5eeea6cc159f893d))
+
+
+### Bug Fixes
+
+* adjust options page layout ([ecd79ac](https://github.com/dessant/youtube-video-quality/commit/ecd79ac0020909ac1d9dd02c30289006994db885))
+* match youtube nocookie origin ([87fce09](https://github.com/dessant/youtube-video-quality/commit/87fce09f36ea9dad67a4ee04322986c959d09304))
+* remove support for outdated browsers ([42a3fab](https://github.com/dessant/youtube-video-quality/commit/42a3fab156921ae3fba799c6f8b5b0735c40ea4c))
+* remove unnecessary permissions ([66508b9](https://github.com/dessant/youtube-video-quality/commit/66508b901bf26e3b787f8cd5d038f21dea934a5e))
+* set video quality using YouTube's API ([b783a5d](https://github.com/dessant/youtube-video-quality/commit/b783a5dcbd0435d98d19d3bb01fd332f09e92516))
+
 ## [0.2.0](https://github.com/dessant/youtube-video-quality/compare/v0.1.0...v0.2.0) (2019-06-01)
 
 
