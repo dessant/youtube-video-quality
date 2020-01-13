@@ -30,9 +30,9 @@
     "release": "standard-version"
   },
   "browserslist": [
-    "Chrome >= 55",
-    "Firefox >= 52",
-    "Opera >= 42"
+    "Chrome >= 76",
+    "Firefox >= 68",
+    "Opera >= 63"
   ],
   "dependencies": {
     "@material/typography": "^4.0.0",
