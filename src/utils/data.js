@@ -1,4 +1,4 @@
-const optionKeys = ['quality'];
+const optionKeys = ['quality', 'limitFps'];
 
 const qualityLevels = [
   'highres',

@@ -6,7 +6,19 @@ function setVideoQuality(quality) {
   localStorage.setItem('yt-player-quality', prepareQualityData(quality));
 }
 
-function addListeners() {
+function addHooks(limitFps) {
+  if (limitFps) {
+    const isMediaTypeSupported = MediaSource.isTypeSupported;
+    MediaSource.isTypeSupported = function(mediaType) {
+      const match = mediaType.match(/framerate=(\d+)/);
+      if (match && match[1] > 30) {
+        return false;
+      }
+
+      return isMediaTypeSupported(mediaType);
+    };
+  }
+
   const storageSetItem = Storage.prototype.setItem;
   let ignoreNextStorageChange = false;
 
@@ -27,10 +39,10 @@ function addListeners() {
     }
   };
 
-  window.onYouTubePlayerReady = player => {
+  window.onYouTubePlayerReady = function(player) {
     if (player.setPlaybackQualityRange) {
       // https://developers.google.com/youtube/iframe_api_reference#Events
-      player.addEventListener('onStateChange', ev => {
+      player.addEventListener('onStateChange', function(ev) {
         const state = ev.data || ev;
         if (state === 1) {
           const levels = player.getAvailableQualityLevels();
@@ -57,13 +69,16 @@ async function onQualityChange(ev) {
 }
 
 async function init() {
-  const {quality} = await storage.get('quality', 'sync');
+  const {quality, limitFps} = await storage.get(
+    ['quality', 'limitFps'],
+    'sync'
+  );
   setVideoQuality(quality);
 
   document.addEventListener('qualityChange', onQualityChange);
 
   const script = document.createElement('script');
-  script.textContent = `(${addListeners.toString()})()`;
+  script.textContent = `(${addHooks.toString()})(${limitFps})`;
   document.documentElement.appendChild(script);
   script.remove();
 }

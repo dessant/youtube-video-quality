@@ -69,6 +69,11 @@
     "description": "Value of the option."
   },
 
+  "optionTitle_limitFps": {
+    "message": "Limit frame rate to 30 FPS",
+    "description": "Title of the option."
+  },
+
   "pageTitle": {
     "message": "$PAGETITLE$ - $EXTENSIONNAME$",
     "description": "Title of the page.",
