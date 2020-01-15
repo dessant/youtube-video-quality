@@ -5,7 +5,6 @@ const {lstatSync, readdirSync, readFileSync, writeFileSync} = require('fs');
 const {ensureDirSync} = require('fs-extra');
 const gulp = require('gulp');
 const htmlmin = require('gulp-htmlmin');
-const babel = require('gulp-babel');
 const postcss = require('gulp-postcss');
 const gulpif = require('gulp-if');
 const del = require('del');
