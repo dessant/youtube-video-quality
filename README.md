@@ -7,6 +7,8 @@
     <img src="https://i.imgur.com/B0i5sn3.png" alt="Chrome Web Store"></a>
   <a href="https://addons.mozilla.org/en-US/firefox/addon/youtube-video-quality/">
     <img src="https://i.imgur.com/dvof8rG.png" alt="Firefox add-ons"></a>
+  <a href="https://microsoftedge.microsoft.com/addons/detail/bmfmlaabdanpbcdehambbmlemnkdglkj">
+    <img src="https://i.imgur.com/n49Wiu2.png" alt="Microsoft Store"></a>
   </br></br>
 </p>
 
