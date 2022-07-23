@@ -1,17 +1,11 @@
 const optionKeys = ['quality', 'limitFps'];
 
 const qualityLevels = [
-  'highres',
-  'hd2880',
-  'hd2160',
-  'hd1440',
-  'hd1080',
-  'hd720',
-  'large',
-  'medium',
-  'small',
-  'tiny',
-  'auto'
+  '2160',
+  '1440',
+  '1080',
+  '720',
+  '0'
 ];
 
 export {optionKeys, qualityLevels};

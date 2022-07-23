@@ -5,9 +5,9 @@ import {getText} from 'utils/common';
 function prepareQualityData(quality) {
   const epoch = Date.now();
   const data = {
+    data: "{\"quality\":"+quality+",\"previousQuality\":0}",
+    expiration: epoch + 60 * 60 * 24 * 30 * 1000, // one month
     creation: epoch,
-    data: quality,
-    expiration: epoch + 60 * 60 * 24 * 30 * 1000 // one month
   };
   return JSON.stringify(data);
 }

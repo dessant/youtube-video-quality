@@ -9,65 +9,38 @@
     "description": "Description of the extension."
   },
 
-  "optionTitle_quality": {
-    "message": "Video quality",
-    "description": "Title of the option."
-  },
 
-  "optionValue_quality_auto": {
+  "optionValue_quality_0": {
     "message": "Auto",
     "description": "Value of the option."
   },
 
-  "optionValue_quality_tiny": {
-    "message": "144p",
-    "description": "Value of the option."
-  },
 
-  "optionValue_quality_small": {
-    "message": "240p",
-    "description": "Value of the option."
-  },
-
-  "optionValue_quality_medium": {
-    "message": "360p",
-    "description": "Value of the option."
-  },
-
-  "optionValue_quality_large": {
-    "message": "480p",
-    "description": "Value of the option."
-  },
-
-  "optionValue_quality_hd720": {
+  "optionValue_quality_720": {
     "message": "720p (HD)",
     "description": "Value of the option."
   },
 
-  "optionValue_quality_hd1080": {
+  "optionValue_quality_1080": {
     "message": "1080p (HD)",
     "description": "Value of the option."
   },
 
-  "optionValue_quality_hd1440": {
+  "optionValue_quality_1440": {
     "message": "1440p (2K)",
     "description": "Value of the option."
   },
 
-  "optionValue_quality_hd2160": {
+  "optionValue_quality_2160": {
     "message": "2160p (4K)",
     "description": "Value of the option."
   },
 
-  "optionValue_quality_hd2880": {
+  "optionValue_quality_2880": {
     "message": "2880p (5K)",
     "description": "Value of the option."
   },
 
-  "optionValue_quality_highres": {
-    "message": "4320p (8K)",
-    "description": "Value of the option."
-  },
 
   "optionTitle_limitFps": {
     "message": "Limit frame rate to 30 FPS",
