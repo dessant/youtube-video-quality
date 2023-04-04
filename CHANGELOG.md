@@ -2,6 +2,18 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [2.0.0](https://github.com/dessant/youtube-video-quality/compare/v1.0.1...v2.0.0) (2023-04-04)
+
+
+### ⚠ BREAKING CHANGES
+
+* browser versions older than Chrome 92, Edge 92,
+and Firefox 91 are no longer supported
+
+### Features
+
+* migrate to Vuetify ([26e6068](https://github.com/dessant/youtube-video-quality/commit/26e606813d9d2b20ea2531fd55c07bda338d6aed))
+
 ### [1.0.1](https://github.com/dessant/youtube-video-quality/compare/v1.0.0...v1.0.1) (2020-01-21)
 
 ## [1.0.0](https://github.com/dessant/youtube-video-quality/compare/v0.2.0...v1.0.0) (2020-01-13)
