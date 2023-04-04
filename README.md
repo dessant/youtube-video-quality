@@ -3,11 +3,11 @@
 
 <p align="center">
   </br></br>
-  <a href="https://chrome.google.com/webstore/detail/hlbopkdbimgihmpcaohopplcbpanmjlb">
+  <a href="https://chrome.google.com/webstore/detail/video-quality-settings-fo/hlbopkdbimgihmpcaohopplcbpanmjlb">
     <img height="58" src="https://i.imgur.com/K9Yh8G9.png" alt="Chrome Web Store"></a>
   <a href="https://addons.mozilla.org/en-US/firefox/addon/youtube-video-quality/">
     <img height="58" src="https://i.imgur.com/2jJOtTI.png" alt="Firefox add-ons"></a>
-  <a href="https://microsoftedge.microsoft.com/addons/detail/bmfmlaabdanpbcdehambbmlemnkdglkj">
+  <a href="https://microsoftedge.microsoft.com/addons/detail/video-quality-settings-fo/bmfmlaabdanpbcdehambbmlemnkdglkj">
     <img height="58" src="https://i.imgur.com/es2YFRA.png" alt="Microsoft Store"></a>
   </br></br>
 </p>
@@ -30,12 +30,12 @@ settings between sessions.
 ## Screenshots
 
 <p>
-  <img width="414" src="https://i.imgur.com/rBPyFPg.png">
+  <img width="380" src="https://i.imgur.com/rBPyFPg.png">
 </p>
 
 ## License
 
-Copyright (c) 2018-2021 Armin Sebastian
+Copyright (c) 2018-2023 Armin Sebastian
 
 This software is released under the terms of the GNU General Public License v3.0.
 See the [LICENSE](LICENSE) file for further information.

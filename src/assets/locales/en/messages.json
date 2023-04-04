@@ -9,62 +9,62 @@
     "description": "Description of the extension."
   },
 
+  "optionSectionTitle_general": {
+    "message": "General",
+    "description": "Title of the option section."
+  },
+
   "optionTitle_quality": {
     "message": "Video quality",
     "description": "Title of the option."
   },
 
-  "optionValue_quality_auto": {
+  "optionValue_quality_0": {
     "message": "Auto",
     "description": "Value of the option."
   },
 
-  "optionValue_quality_tiny": {
+  "optionValue_quality_144": {
     "message": "144p",
     "description": "Value of the option."
   },
 
-  "optionValue_quality_small": {
+  "optionValue_quality_240": {
     "message": "240p",
     "description": "Value of the option."
   },
 
-  "optionValue_quality_medium": {
+  "optionValue_quality_360": {
     "message": "360p",
     "description": "Value of the option."
   },
 
-  "optionValue_quality_large": {
+  "optionValue_quality_480": {
     "message": "480p",
     "description": "Value of the option."
   },
 
-  "optionValue_quality_hd720": {
-    "message": "720p (HD)",
+  "optionValue_quality_720": {
+    "message": "720p",
     "description": "Value of the option."
   },
 
-  "optionValue_quality_hd1080": {
+  "optionValue_quality_1080": {
     "message": "1080p (HD)",
     "description": "Value of the option."
   },
 
-  "optionValue_quality_hd1440": {
-    "message": "1440p (2K)",
+  "optionValue_quality_1440": {
+    "message": "1440p (HD)",
     "description": "Value of the option."
   },
 
-  "optionValue_quality_hd2160": {
+  "optionValue_quality_2160": {
     "message": "2160p (4K)",
     "description": "Value of the option."
   },
 
-  "optionValue_quality_hd2880": {
-    "message": "2880p (5K)",
-    "description": "Value of the option."
-  },
-
-  "optionValue_quality_highres": {
+  "optionValue_quality_4320": {
     "message": "4320p (8K)",
     "description": "Value of the option."
   },
@@ -72,6 +72,41 @@
   "optionTitle_limitFps": {
     "message": "Limit frame rate to 30 FPS",
     "description": "Title of the option."
+  },
+
+  "optionSectionTitle_misc": {
+    "message": "Miscellaneous",
+    "description": "Title of the option section."
+  },
+
+  "optionTitle_appTheme": {
+    "message": "Theme",
+    "description": "Title of the option."
+  },
+
+  "optionValue_appTheme_auto": {
+    "message": "System default",
+    "description": "Value of the option."
+  },
+
+  "optionValue_appTheme_light": {
+    "message": "Light",
+    "description": "Value of the option."
+  },
+
+  "optionValue_appTheme_dark": {
+    "message": "Dark",
+    "description": "Value of the option."
+  },
+
+  "optionTitle_showContribPage": {
+    "message": "Show contribution page",
+    "description": "Title of the option."
+  },
+
+  "buttonLabel_contribute": {
+    "message": "Contribute",
+    "description": "Label of the button."
   },
 
   "pageTitle": {
@@ -91,6 +126,11 @@
 
   "pageTitle_options": {
     "message": "Options",
+    "description": "Title of the page."
+  },
+
+  "pageTitle_contribute": {
+    "message": "Contribute",
     "description": "Title of the page."
   }
 }

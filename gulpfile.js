@@ -1,148 +1,178 @@
-const path = require('path');
-const {exec} = require('child_process');
-const {lstatSync, readdirSync, readFileSync, writeFileSync} = require('fs');
+const path = require('node:path');
+const {exec} = require('node:child_process');
+const {
+  lstatSync,
+  readdirSync,
+  readFileSync,
+  writeFileSync,
+  rmSync
+} = require('node:fs');
 
-const {ensureDirSync} = require('fs-extra');
-const gulp = require('gulp');
-const htmlmin = require('gulp-htmlmin');
+const {series, parallel, src, dest} = require('gulp');
 const postcss = require('gulp-postcss');
 const gulpif = require('gulp-if');
-const del = require('del');
 const jsonMerge = require('gulp-merge-json');
 const jsonmin = require('gulp-jsonmin');
-const svg2png = require('svg2png');
+const htmlmin = require('gulp-htmlmin');
 const imagemin = require('gulp-imagemin');
+const {ensureDirSync} = require('fs-extra');
+const sharp = require('sharp');
 
-const targetEnv = process.env.TARGET_ENV || 'firefox';
+const targetEnv = process.env.TARGET_ENV || 'chrome';
 const isProduction = process.env.NODE_ENV === 'production';
-const distDir = path.join('dist', targetEnv);
+const enableContributions =
+  (process.env.ENABLE_CONTRIBUTIONS || 'true') === 'true';
+const distDir = path.join(__dirname, 'dist', targetEnv);
+const zipName = 'video_quality_settings_for_youtube';
 
-gulp.task('clean', function() {
-  return del([distDir]);
-});
+function initEnv() {
+  process.env.BROWSERSLIST_ENV = targetEnv;
+}
 
-gulp.task('js', function(done) {
-  exec('webpack-cli --display-error-details --bail --colors', function(
-    err,
-    stdout,
-    stderr
-  ) {
+function init(done) {
+  initEnv();
+
+  rmSync(distDir, {recursive: true, force: true});
+  ensureDirSync(distDir);
+  done();
+}
+
+function js(done) {
+  exec('webpack-cli build --color', function(err, stdout, stderr) {
     console.log(stdout);
     console.log(stderr);
     done(err);
   });
-});
+}
 
-gulp.task('html', function(done) {
-  gulp
-    .src('src/**/*.html', {base: '.'})
+function html() {
+  return src(
+    enableContributions
+      ? 'src/**/*.html'
+      : ['src/**/*.html', '!src/contribute/*.html'],
+    {base: '.'}
+  )
     .pipe(gulpif(isProduction, htmlmin({collapseWhitespace: true})))
-    .pipe(gulp.dest(distDir));
-  done();
-});
+    .pipe(dest(distDir));
+}
 
-gulp.task('icons', async function(done) {
-  ensureDirSync(`${distDir}/src/icons/app`);
-  const iconSvg = readFileSync('src/icons/app/icon.svg');
+async function images(done) {
+  ensureDirSync(path.join(distDir, 'src/assets/icons/app'));
+  const appIconSvg = readFileSync('src/assets/icons/app/icon.svg');
   const appIconSizes = [16, 19, 24, 32, 38, 48, 64, 96, 128];
+  if (targetEnv === 'safari') {
+    appIconSizes.push(256, 512, 1024);
+  }
   for (const size of appIconSizes) {
-    const pngBuffer = await svg2png(iconSvg, {width: size, height: size});
-    writeFileSync(`${distDir}/src/icons/app/icon-${size}.png`, pngBuffer);
+    await sharp(appIconSvg, {density: (72 * size) / 24})
+      .resize(size)
+      .toFile(path.join(distDir, `src/assets/icons/app/icon-${size}.png`));
+  }
+  // Chrome Web Store does not correctly display optimized icons
+  if (isProduction && targetEnv !== 'chrome') {
+    await new Promise(resolve => {
+      src(path.join(distDir, 'src/assets/icons/app/*.png'), {base: '.'})
+        .pipe(imagemin())
+        .pipe(dest('.'))
+        .on('error', done)
+        .on('finish', resolve);
+    });
   }
 
-  if (isProduction) {
-    gulp
-      .src(`${distDir}/src/icons/**/*.png`, {base: '.'})
-      .pipe(imagemin())
-      .pipe(gulp.dest('.'));
+  await new Promise(resolve => {
+    src('src/assets/icons/@(app|misc)/*.@(png|svg)', {base: '.'})
+      .pipe(gulpif(isProduction, imagemin()))
+      .pipe(dest(distDir))
+      .on('error', done)
+      .on('finish', resolve);
+  });
+
+  if (enableContributions) {
+    await new Promise(resolve => {
+      src('node_modules/vueton/components/contribute/assets/*.@(png|svg)')
+        .pipe(gulpif(isProduction, imagemin()))
+        .pipe(dest(path.join(distDir, 'src/contribute/assets')))
+        .on('error', done)
+        .on('finish', resolve);
+    });
   }
-  done();
-});
+}
 
-gulp.task('fonts', function(done) {
-  gulp
-    .src('src/fonts/roboto.css', {base: '.'})
-    .pipe(postcss())
-    .pipe(gulp.dest(distDir));
-  gulp
-    .src('node_modules/typeface-roboto/files/roboto-latin-@(400|500).woff2')
-    .pipe(gulp.dest(`${distDir}/src/fonts/files`));
-  done();
-});
+async function fonts(done) {
+  await new Promise(resolve => {
+    src('src/assets/fonts/roboto.css', {base: '.'})
+      .pipe(postcss())
+      .pipe(dest(distDir))
+      .on('error', done)
+      .on('finish', resolve);
+  });
 
-gulp.task('locale', function(done) {
-  const localesRootDir = path.join(__dirname, 'src/_locales');
+  await new Promise(resolve => {
+    src(
+      'node_modules/@fontsource/roboto/files/roboto-latin-@(400|500|700)-normal.woff2'
+    )
+      .pipe(dest(path.join(distDir, 'src/assets/fonts/files')))
+      .on('error', done)
+      .on('finish', resolve);
+  });
+}
+
+async function locale(done) {
+  const localesRootDir = path.join(__dirname, 'src/assets/locales');
   const localeDirs = readdirSync(localesRootDir).filter(function(file) {
     return lstatSync(path.join(localesRootDir, file)).isDirectory();
   });
-  localeDirs.forEach(function(localeDir) {
+  for (const localeDir of localeDirs) {
     const localePath = path.join(localesRootDir, localeDir);
-    gulp
-      .src(
+    await new Promise(resolve => {
+      src(
         [
           path.join(localePath, 'messages.json'),
           path.join(localePath, `messages-${targetEnv}.json`)
         ],
         {allowEmpty: true}
       )
-      .pipe(
-        jsonMerge({
-          fileName: 'messages.json',
-          edit: (parsedJson, file) => {
-            if (isProduction) {
-              for (let [key, value] of Object.entries(parsedJson)) {
-                if (value.hasOwnProperty('description')) {
-                  delete parsedJson[key].description;
+        .pipe(
+          jsonMerge({
+            fileName: 'messages.json',
+            edit: (parsedJson, file) => {
+              if (isProduction) {
+                for (let [key, value] of Object.entries(parsedJson)) {
+                  if (value.hasOwnProperty('description')) {
+                    delete parsedJson[key].description;
+                  }
                 }
               }
+              return parsedJson;
             }
-            return parsedJson;
-          }
-        })
-      )
-      .pipe(gulpif(isProduction, jsonmin()))
-      .pipe(gulp.dest(path.join(distDir, '_locales', localeDir)));
-  });
-  done();
-});
+          })
+        )
+        .pipe(gulpif(isProduction, jsonmin()))
+        .pipe(dest(path.join(distDir, '_locales', localeDir)))
+        .on('error', done)
+        .on('finish', resolve);
+    });
+  }
+}
 
-gulp.task('manifest', function(done) {
-  gulp
-    .src('src/manifest.json')
+function manifest() {
+  return src(`src/assets/manifest/${targetEnv}.json`)
     .pipe(
       jsonMerge({
         fileName: 'manifest.json',
         edit: (parsedJson, file) => {
-          if (['chrome', 'edge', 'opera'].includes(targetEnv)) {
-            delete parsedJson.applications;
-            delete parsedJson.options_ui.browser_style;
-          }
-
-          if (['chrome', 'edge', 'firefox'].includes(targetEnv)) {
-            delete parsedJson.minimum_opera_version;
-          }
-
-          if (['firefox', 'opera'].includes(targetEnv)) {
-            delete parsedJson.minimum_chrome_version;
-          }
-
-          if (targetEnv === 'firefox') {
-            delete parsedJson.options_ui.chrome_style;
-          }
-
           parsedJson.version = require('./package.json').version;
           return parsedJson;
         }
       })
     )
     .pipe(gulpif(isProduction, jsonmin()))
-    .pipe(gulp.dest(distDir));
-  done();
-});
+    .pipe(dest(distDir));
+}
 
-gulp.task('license', function(done) {
-  let year = 2018;
-  const currentYear = new Date().getFullYear();
+function license() {
+  let year = '2018';
+  const currentYear = new Date().getFullYear().toString();
   if (year !== currentYear) {
     year = `${year}-${currentYear}`;
   }
@@ -154,47 +184,40 @@ This software is released under the terms of the GNU General Public License v3.0
 See the LICENSE file for further information.
 `;
 
-  writeFileSync(`${distDir}/NOTICE`, notice);
-  gulp.src(['LICENSE']).pipe(gulp.dest(distDir));
-  done();
-});
+  writeFileSync(path.join(distDir, 'NOTICE'), notice);
+  return src('LICENSE').pipe(dest(distDir));
+}
 
-gulp.task(
-  'build',
-  gulp.series(
-    'clean',
-    gulp.parallel(
-      'js',
-      'html',
-      'icons',
-      'fonts',
-      'locale',
-      'manifest',
-      'license'
-    )
-  )
+function zip(done) {
+  exec(
+    `web-ext build -s dist/${targetEnv} -a artifacts/${targetEnv} -n "${zipName}-{version}-${targetEnv}.zip" --overwrite-dest`,
+    function(err, stdout, stderr) {
+      console.log(stdout);
+      console.log(stderr);
+      done(err);
+    }
+  );
+}
+
+function inspect(done) {
+  initEnv();
+
+  exec(
+    `npm run build:prod:chrome && \
+    webpack --profile --json > report.json && \
+    webpack-bundle-analyzer --mode static report.json dist/chrome/src && \
+    sleep 3 && rm report.{json,html}`,
+    function(err, stdout, stderr) {
+      console.log(stdout);
+      console.log(stderr);
+      done(err);
+    }
+  );
+}
+
+exports.build = series(
+  init,
+  parallel(js, html, images, fonts, locale, manifest, license)
 );
-
-gulp.task('zip', function(done) {
-  exec(
-    `web-ext build -s dist/${targetEnv} -a artifacts/${targetEnv} --overwrite-dest`,
-    function(err, stdout, stderr) {
-      console.log(stdout);
-      console.log(stderr);
-      done(err);
-    }
-  );
-});
-
-gulp.task('inspect', function(done) {
-  exec(
-    `webpack --profile --json > report.json && webpack-bundle-analyzer report.json dist/firefox/src && sleep 10 && rm report.{json,html}`,
-    function(err, stdout, stderr) {
-      console.log(stdout);
-      console.log(stderr);
-      done(err);
-    }
-  );
-});
-
-gulp.task('default', gulp.series('build'));
+exports.zip = zip;
+exports.inspect = inspect;
