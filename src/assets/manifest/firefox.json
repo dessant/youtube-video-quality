@@ -10,7 +10,7 @@
   "applications": {
     "gecko": {
       "id": "{094c428f-8a39-4af8-a4a3-1aff5fb34abc}",
-      "strict_min_version": "91.0"
+      "strict_min_version": "115.0"
     }
   },
 
@@ -21,7 +21,7 @@
     "*://www.youtube-nocookie.com/*"
   ],
 
-  "content_security_policy": "default-src 'self'; img-src 'self' data:; style-src 'self' 'unsafe-inline'; connect-src *; media-src 'none'; object-src 'none'; child-src 'none'; form-action 'none';",
+  "content_security_policy": "default-src 'self'; style-src 'self' 'unsafe-inline'; img-src * data:; connect-src *; object-src 'none'; media-src 'none'; child-src 'none'; form-action 'none'; upgrade-insecure-requests;",
 
   "icons": {
     "16": "src/assets/icons/app/icon-16.png",

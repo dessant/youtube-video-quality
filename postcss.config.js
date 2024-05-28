@@ -1,7 +1,7 @@
 const postcssPresetEnv = require('postcss-preset-env');
 const cssnano = require('cssnano');
 
-module.exports = function(api) {
+module.exports = function (api) {
   const plugins = [postcssPresetEnv()];
 
   if (api.env === 'production') {

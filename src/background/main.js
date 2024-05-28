@@ -1,14 +1,16 @@
-import {initStorage, migrateLegacyStorage} from 'storage/init';
+import {initStorage} from 'storage/init';
 import {isStorageReady} from 'storage/storage';
-import {getPlatform} from 'utils/common';
 import {
-  showPage,
-  showOptionsPage,
-  processAppUse,
+  insertBaseModule,
   processMessageResponse,
-  insertBaseModule
+  processAppUse,
+  showOptionsPage,
+  setAppVersion,
+  getStartupState
 } from 'utils/app';
-import {targetEnv} from 'utils/config';
+import {executeScript, isValidTab, getPlatform, runOnce} from 'utils/common';
+import {getScriptFunction} from 'utils/scripts';
+import {targetEnv, mv3} from 'utils/config';
 import {youtubeOriginRx} from 'utils/data';
 
 async function syncState() {
@@ -44,36 +46,35 @@ async function syncState() {
 async function processMessage(request, sender) {
   // Samsung Internet 13: extension messages are sometimes also dispatched
   // to the sender frame.
-  if (sender.url === document.URL) {
+  if (sender.url === self.location.href) {
     return;
   }
 
   if (targetEnv === 'samsung') {
-    if (
-      /^internet-extension:\/\/.*\/src\/action\/index.html/.test(
-        sender.tab?.url
-      )
-    ) {
-      // Samsung Internet 18: runtime.onMessage provides sender.tab
-      // when the message is sent from the browser action,
-      // and tab.id refers to a nonexistent tab.
-      sender.tab = null;
-    }
-
-    if (sender.tab && sender.tab.id !== browser.tabs.TAB_ID_NONE) {
+    if (await isValidTab({tab: sender.tab})) {
       // Samsung Internet 13: runtime.onMessage provides wrong tab index.
       sender.tab = await browser.tabs.get(sender.tab.id);
     }
   }
 
   if (request.id === 'getPlatform') {
-    return getPlatform({fallback: false});
+    return getPlatform();
   } else if (request.id === 'optionChange') {
     await onOptionChange();
-  } else if (request.id === 'showPage') {
-    await showPage({url: request.url});
-  } else if (request.id === 'appUse') {
-    await processAppUse();
+  } else if (request.id === 'executeScript') {
+    const params = request.params;
+    if (request.setSenderTabId) {
+      params.tabId = sender.tab.id;
+    }
+    if (request.setSenderFrameId) {
+      params.frameIds = [sender.frameId];
+    }
+
+    if (params.func) {
+      params.func = getScriptFunction(params.func);
+    }
+
+    return executeScript(params);
   }
 }
 
@@ -88,20 +89,25 @@ async function onOptionChange() {
 }
 
 async function onActionButtonClick(tab) {
-  await showOptionsPage({activeTab: tab});
+  await showOptionsPage();
 }
 
 async function onInstall(details) {
-  if (
-    ['install', 'update'].includes(details.reason) &&
-    ['chrome', 'edge', 'opera', 'samsung'].includes(targetEnv)
-  ) {
-    await insertBaseModule();
+  if (['install', 'update'].includes(details.reason)) {
+    await setup({event: 'install'});
   }
 }
 
-function addBrowserActionListener() {
-  browser.browserAction.onClicked.addListener(onActionButtonClick);
+async function onStartup() {
+  await setup({event: 'startup'});
+}
+
+function addActionListener() {
+  if (mv3) {
+    browser.action.onClicked.addListener(onActionButtonClick);
+  } else {
+    browser.browserAction.onClicked.addListener(onActionButtonClick);
+  }
 }
 
 function addMessageListener() {
@@ -112,17 +118,43 @@ function addInstallListener() {
   browser.runtime.onInstalled.addListener(onInstall);
 }
 
-async function setup() {
-  if (!(await isStorageReady())) {
-    await migrateLegacyStorage();
-    await initStorage();
+function addStartupListener() {
+  browser.runtime.onStartup.addListener(onStartup);
+}
+
+async function setup({event = ''} = {}) {
+  const startup = await getStartupState({event});
+
+  if (startup.setupInstance) {
+    await runOnce('setupInstance', async () => {
+      if (!(await isStorageReady())) {
+        await initStorage();
+      }
+
+      if (['chrome', 'edge', 'opera', 'samsung'].includes(targetEnv)) {
+        await insertBaseModule();
+      }
+
+      if (startup.update) {
+        await setAppVersion();
+      }
+    });
+  }
+
+  if (startup.setupSession) {
+    await runOnce('setupSession', async () => {
+      if (mv3 && !(await isStorageReady({area: 'session'}))) {
+        await initStorage({area: 'session', silent: true});
+      }
+    });
   }
 }
 
 function init() {
-  addBrowserActionListener();
+  addActionListener();
   addMessageListener();
   addInstallListener();
+  addStartupListener();
 
   setup();
 }

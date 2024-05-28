@@ -3,8 +3,9 @@
     "local": [
       "MzsvDbSaX",
       "Cpxcw8B9y",
-      "20230401082834_add_theme_support"
+      "20230401082834_add_theme_support",
+      "20240514170322_add_appversion"
     ],
-    "sync": []
+    "session": ["20240514122825_initial_version"]
   }
 }

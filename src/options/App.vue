@@ -1,5 +1,5 @@
 <template>
-  <vn-app id="app" v-if="dataLoaded">
+  <vn-app v-if="dataLoaded">
     <div class="section-general">
       <div class="section-title" v-once>
         {{ getText('optionSectionTitle_general') }}
@@ -77,7 +77,7 @@ export default {
     [Select.name]: Select
   },
 
-  data: function() {
+  data: function () {
     return {
       dataLoaded: false,
 
@@ -106,7 +106,7 @@ export default {
   methods: {
     getText,
 
-    setup: async function() {
+    setup: async function () {
       const options = await storage.get(optionKeys);
 
       for (const option of Object.keys(this.options)) {
@@ -114,7 +114,7 @@ export default {
 
         this.$watch(
           `options.${option}`,
-          async function(value) {
+          async function (value) {
             await storage.set({[option]: toRaw(value)});
             await browser.runtime.sendMessage({id: 'optionChange'});
           },
@@ -125,12 +125,12 @@ export default {
       this.dataLoaded = true;
     },
 
-    showContribute: async function() {
+    showContribute: async function () {
       await showContributePage();
     }
   },
 
-  created: function() {
+  created: function () {
     document.title = getText('pageTitle', [
       getText('pageTitle_options'),
       getText('extensionName')
