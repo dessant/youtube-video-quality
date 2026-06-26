@@ -7,7 +7,7 @@
   "homepage_url": "https://github.com/dessant/youtube-video-quality",
   "default_locale": "en",
 
-  "applications": {
+  "browser_specific_settings": {
     "gecko": {
       "id": "{094c428f-8a39-4af8-a4a3-1aff5fb34abc}",
       "strict_min_version": "115.0"
@@ -17,6 +17,7 @@
   "permissions": [
     "storage",
     "webNavigation",
+    "scripting",
     "*://*.youtube.com/*",
     "*://www.youtube-nocookie.com/*"
   ],

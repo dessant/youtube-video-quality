@@ -6,16 +6,9 @@ import {
   decodeQualityData,
   isValidQualityValue
 } from 'utils/app';
-import {executeScriptMainContext} from 'utils/common';
+import {executeScriptMainContext, runOnce} from 'utils/common';
 
 function main() {
-  // Script may be injected multiple times.
-  if (self.baseModule) {
-    return;
-  } else {
-    self.baseModule = true;
-  }
-
   const contentStorage = {
     contextEventName: ''
   };
@@ -100,4 +93,6 @@ function main() {
   init();
 }
 
-main();
+if (runOnce('baseModule')) {
+  main();
+}
