@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [commit-and-tag-version](https://github.com/absolute-version/commit-and-tag-version) for commit guidelines.
 
+## [3.1.0](https://github.com/dessant/youtube-video-quality/compare/v3.0.0...v3.1.0) (2026-06-26)
+
+
+### Features
+
+* upgrade to Manifest V3 in Edge ([9d90b79](https://github.com/dessant/youtube-video-quality/commit/9d90b79b1dd4578c10146de2535e3a2f012ec4da))
+
 ## [3.0.0](https://github.com/dessant/youtube-video-quality/compare/v2.0.0...v3.0.0) (2024-05-28)
 
 
