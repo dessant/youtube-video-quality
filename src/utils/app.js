@@ -16,7 +16,13 @@ import {
   appVersion,
   mv3
 } from 'utils/config';
-import {qualityLevels, youtubeOriginRx} from 'utils/data';
+import {
+  qualityLevels,
+  youtubeOriginRx,
+  sponsorLogoVariants,
+  supportUrl,
+  sponsorSites
+} from 'utils/data';
 
 function encodeQualityData(quality) {
   const epoch = Date.now();
@@ -316,6 +322,14 @@ async function showOptionsPage({getTab = false, activeTab = null} = {}) {
   });
 }
 
+async function showSponsorPage({
+  name = '',
+  getTab = false,
+  activeTab = null
+} = {}) {
+  return showPage({url: getSponsorUrl(name), getTab, activeTab});
+}
+
 async function setAppVersion() {
   await storage.set({appVersion});
 }
@@ -408,6 +422,18 @@ async function getStartupState({event = ''} = {}) {
   return startup;
 }
 
+function getSponsorUrl(name) {
+  return sponsorSites[name];
+}
+
+function getSponsorLogo(name, {variant = ''} = {}) {
+  if (variant && sponsorLogoVariants[name]?.includes(variant)) {
+    name += `-${variant}`;
+  }
+
+  return `/src/assets/icons/sponsors/${name}.svg`;
+}
+
 export {
   encodeQualityData,
   decodeQualityData,
@@ -429,8 +455,11 @@ export {
   processAppUse,
   showContributePage,
   showOptionsPage,
+  showSponsorPage,
   setAppVersion,
   isSessionStartup,
   isStartup,
-  getStartupState
+  getStartupState,
+  getSponsorUrl,
+  getSponsorLogo
 };

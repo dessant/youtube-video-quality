@@ -2,6 +2,7 @@ const optionKeys = ['quality', 'limitFps', 'appTheme', 'showContribPage'];
 
 // https://developers.google.com/youtube/iframe_api_reference#Events
 // localStorage yt-player-quality: IFrame player API onPlaybackQualityChange
+// prettier-ignore
 const qualityLevels = {
   '4320': 'highres',
   '2160': 'hd2160',
@@ -17,4 +18,21 @@ const qualityLevels = {
 
 const youtubeOriginRx = /^https:\/\/www\.(?:youtube|youtube-nocookie)\.com$/;
 
-export {optionKeys, qualityLevels, youtubeOriginRx};
+const sponsorLogoVariants = {
+  lenso: ['dark']
+};
+
+const sponsors = ['lenso'];
+
+const sponsorSites = {
+  lenso: 'https://go.vapps.dev/a2/sponsor/lenso'
+};
+
+export {
+  optionKeys,
+  qualityLevels,
+  youtubeOriginRx,
+  sponsorLogoVariants,
+  sponsors,
+  sponsorSites
+};
