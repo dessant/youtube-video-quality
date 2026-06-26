@@ -28,7 +28,7 @@ const enableContributions =
   (process.env.ENABLE_CONTRIBUTIONS || 'true') === 'true';
 const enableSponsors = (process.env.ENABLE_SPONSORS || 'true') === 'true';
 
-const mv3 = ['chrome'].includes(targetEnv);
+const mv3 = ['chrome', 'edge'].includes(targetEnv);
 
 const distDir = path.join(__dirname, 'dist', targetEnv);
 
